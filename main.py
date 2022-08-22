@@ -81,11 +81,7 @@ def organising():
             name = row[0]
             x1 = (x- len(name)*k)
             y1 = y
-<<<<<<< HEAD
-            img = Image.open(imgParticipation)
-=======
             img = Image.open(imgOrganising)
->>>>>>> parent of 9a8cb7f (Delete main.py)
             draw = ImageDraw.Draw(img)
             font = ImageFont.truetype(certfont, fontsize) 
             draw.text((x1, y1), name, textcolor, font=font)
@@ -173,11 +169,7 @@ def fourth():
                 outpath = output + '/fourth'
             x1 = (x- len(name)*k)
             y1 = y
-<<<<<<< HEAD
-            img = Image.open(imgBronze)
-=======
             img = Image.open(imgCopper)
->>>>>>> parent of 9a8cb7f (Delete main.py)
             draw = ImageDraw.Draw(img)
             font = ImageFont.truetype(certfont, fontsize) 
             draw.text((x1, y1), name, textcolor, font=font)
@@ -199,11 +191,7 @@ def extra():
                 outpath = output + '/extra'
             x1 = (x- len(name)*k)
             y1 = y
-<<<<<<< HEAD
-            img = Image.open(imgBronze)
-=======
             img = Image.open(imgExtra)
->>>>>>> parent of 9a8cb7f (Delete main.py)
             draw = ImageDraw.Draw(img)
             font = ImageFont.truetype(certfont, fontsize) 
             draw.text((x1, y1), name, textcolor, font=font)
