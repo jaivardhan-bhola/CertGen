@@ -4,24 +4,25 @@ import os
 
 certfont = 'fonts/JBM_bold.ttf'
 fontsize = 60
-textcolor = (20, 20, 20)
+fontsize2 = 29
+textcolor = (20, 40, 50)
 datafile = 'data/data.csv'
-imgfirst = 'templates/gold.jpg'
-imgSilver = 'templates/silver.jpg'
-imgBronze = 'templates/bronze.jpg'
-imgCopper = 'templates/copper.jpg'
-imgParticipation = 'templates/participation.jpg'
+# imgfirst = 'templates/gold.jpg'
+# imgSilver = 'templates/silver.jpg'
+# imgBronze = 'templates/bronze.jpg'
+# imgCopper = 'templates/copper.jpg'
+# imgParticipation = 'templates/participation.jpg'
 imgOrganising = 'templates/organising.jpg'
-imgExtra = 'templates/extra.jpg'
+# imgExtra = 'templates/extra.jpg'
 
 if not os.path.exists("Exports"):
     os.makedirs("Exports")
 output = 'Exports'
 
-x = 1000
-y = 670
-x2 = 500
-y2 = 1460
+x = 575
+y = 440
+x2 = 350
+y2 = 530
 
 k = 0.6 * fontsize / 2
 
@@ -79,13 +80,18 @@ def organising():
     for row in data:
         if row[placeindex] == '6':
             name = row[0]
+            designation = row[1]
             x1 = (x- len(name)*k)
-            y1 = y
+            y1 = y- (fontsize*1.2)
+            x3 = x2
+            y3 = y2 - (fontsize*1.2)
             img = Image.open(imgOrganising)
             draw = ImageDraw.Draw(img)
             font = ImageFont.truetype(certfont, fontsize) 
             draw.text((x1, y1), name, textcolor, font=font)
-            img.save('{}/{}.jpg'.format(outpath, name))
+            draw.text((x3, y3), designation, textcolor, font=ImageFont.truetype(certfont, fontsize2))
+            img.save('{}/{}_{}.jpg'.format(outpath, name.replace(' ', '_'),designation.replace(' ', '_')))
+
 
 def first():
     for row in data:
@@ -197,10 +203,4 @@ def extra():
             draw.text((x1, y1), name, textcolor, font=font)
             img.save('{}/{}.jpg'.format(outpath, name))
 
-participation()
-first()
-second()
-third()
-fourth()
-extra()
 organising()
