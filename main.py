@@ -17,9 +17,9 @@ output = os.getcwd() + '/Exports'
 
 k = 0.6 * fontsize / 2
 name_x = 975
-name_y = 630 + fontsize
+name_y = 690 - fontsize
 event_x = 710
-event_y = 850 + fontsize2
+event_y = 880 - fontsize2
 
 with open(datafile, 'r') as f:
     reader = csv.reader(f)
