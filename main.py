@@ -7,200 +7,114 @@ fontsize = 60
 fontsize2 = 29
 textcolor = (20, 40, 50)
 datafile = 'data/data.csv'
-# imgfirst = 'templates/gold.jpg'
-# imgSilver = 'templates/silver.jpg'
-# imgBronze = 'templates/bronze.jpg'
-# imgCopper = 'templates/copper.jpg'
-# imgParticipation = 'templates/participation.jpg'
-imgOrganising = 'templates/organising.jpg'
-# imgExtra = 'templates/extra.jpg'
-
+imgfirst = os.getcwd()+'/templates/gold.png'
+imgSilver = os.getcwd()+'/templates/silver.png'
+imgBronze = os.getcwd()+'/templates/bronze.png'
+imgOrganising = os.getcwd()+'/templates/organising.png'
 if not os.path.exists("Exports"):
     os.makedirs("Exports")
-output = 'Exports'
-
-x = 575
-y = 440
-x2 = 350
-y2 = 530
+output = os.getcwd() + '/Exports'
 
 k = 0.6 * fontsize / 2
+name_x = 975
+name_y = 630
+event_x = 710
+event_y = 850
 
 with open(datafile, 'r') as f:
     reader = csv.reader(f)
     header = next(reader)
-    if 'School' in header:
-        if 'Event' in header:
-            placeindex = header.index('Place')
-            schoolindex = header.index('School')
-            eventindex = header.index('Event')
-
-        else:
-            placeindex = header.index('Place')
-            schoolindex = header.index('School')
-
-    else:
-        if 'Event' in header:
-            placeindex = header.index('Place')
-            eventindex = header.index('Event')
-            
-        else: 
-            placeindex = header.index('Place')
-
-    data = [row for row in reader]
-
-
-def participation():
-    for row in data:
-        name = row[0]
-        if row[placeindex] =='6':
-            pass
-        if 'School' in header:
-            if not os.path.exists(output + row[schoolindex]):
-                os.makedirs(output + row[schoolindex])
-                if not os.path.exists(output + row[schoolindex] + '/Participation'):
-                    os.makedirs(output + row[schoolindex] + '/Participation')
-            outpath = output + row[schoolindex] + '/Participation'
-        else:
-            if not os.path.exists(output + '/Participation'):
-                os.makedirs(output + '/Participation')
-            outpath = output + '/Participation'
-        x1 = (x- len(name)*k)
-        y1 = y
-        img = Image.open(imgParticipation)
-        draw = ImageDraw.Draw(img)
-        font = ImageFont.truetype(certfont, fontsize) 
-        draw.text((x1, y1), name, textcolor, font=font)
-        img.save('{}/{}.jpg'.format(outpath, name))
-
-def organising():
-    if not os.path.exists(output + '/Organising'):
-        os.makedirs(output + '/Organising')
-    outpath = output + '/Organising'
-    for row in data:
-        if row[placeindex] == '6':
-            name = row[0]
-            designation = row[1]
-            x1 = (x- len(name)*k)
-            y1 = y- (fontsize*1.2)
-            x3 = x2
-            y3 = y2 - (fontsize*1.2)
-            img = Image.open(imgOrganising)
-            draw = ImageDraw.Draw(img)
-            font = ImageFont.truetype(certfont, fontsize) 
-            draw.text((x1, y1), name, textcolor, font=font)
-            draw.text((x3, y3), designation, textcolor, font=ImageFont.truetype(certfont, fontsize2))
-            img.save('{}/{}_{}.jpg'.format(outpath, name.replace(' ', '_'),designation.replace(' ', '_')))
-
+    nameindex = header.index('Name')
+    eventindex = header.index('Event')
+    positionindex = header.index('Position')
 
 def first():
-    for row in data:
-        if row[placeindex] == '1':
-            name = row[0]
-            if 'School' in header:
-                if not os.path.exists(output + row[schoolindex]):
-                    os.makedirs(output + row[schoolindex])
-                    if not os.path.exists(output + row[schoolindex] + '/first'):
-                        os.makedirs(output + row[schoolindex] + '/first')
-                outpath = output + row[schoolindex] + '/first'
-            else:
-                if not os.path.exists(output + '/first'):
-                    os.makedirs(output + '/first')
-                outpath = output + '/first'
-            x1 = (x- len(name)*k)
-            y1 = y
-            img = Image.open(imgfirst)
-            draw = ImageDraw.Draw(img)
-            font = ImageFont.truetype(certfont, fontsize) 
-            draw.text((x1, y1), name, textcolor, font=font)
-            img.save('{}/{}.jpg'.format(outpath, name))
+    with open(datafile, 'r') as f:
+        reader = csv.reader(f)
+        header = next(reader)
+        for row in reader:
+            if row[positionindex] == '1':
+                name = row[nameindex]
+                event = row[eventindex]
+                img = Image.open(imgfirst)
+                if 'Event' in header:
+                    if not os.path.exists(output+'/'+event):
+                        os.makedirs(output+'/'+event)
+                outpath = output+'/'+event
+                namex = (name_x - (len(name) * k))
+                draw = ImageDraw.Draw(img)
+                font = ImageFont.truetype(certfont, fontsize)
+                draw.text((namex, name_y), name, fill=textcolor, font=font)
+                name=name.replace(' ', '_')
+                img.save(outpath+'/'+name+'_'+event+'.png')
+                print('Certificate for', name, 'in', event, 'created successfully')
 
 def second():
-    for row in data:
-        if row[placeindex] == '2':
-            name = row[0]
-            if 'School' in header:
-                if not os.path.exists(output + row[schoolindex]):
-                    os.makedirs(output + row[schoolindex])
-                    if not os.path.exists(output + row[schoolindex] + '/second'):
-                        os.makedirs(output + row[schoolindex] + '/second')
-                outpath = output + row[schoolindex] + '/second'
-            else:
-                if not os.path.exists(output + '/second'):
-                    os.makedirs(output + '/second')
-                outpath = output + '/second'
-            x1 = (x- len(name)*k)
-            y1 = y
-            img = Image.open(imgSilver)
-            draw = ImageDraw.Draw(img)
-            font = ImageFont.truetype(certfont, fontsize) 
-            draw.text((x1, y1), name, textcolor, font=font)
-            img.save('{}/{}.jpg'.format(outpath, name))
+    with open(datafile, 'r') as f:
+        reader = csv.reader(f)
+        header = next(reader)
+        for row in reader:
+            if row[positionindex] == '2':
+                name = row[nameindex]
+                event = row[eventindex]
+                img = Image.open(imgSilver)
+                if 'Event' in header:
+                    if not os.path.exists(output+'/'+event):
+                        os.makedirs(output+'/'+event)
+                outpath = output+'/'+event
+                namex = (name_x - (len(name) * k))
+                draw = ImageDraw.Draw(img)
+                font = ImageFont.truetype(certfont, fontsize)
+                draw.text((namex, name_y), name, fill=textcolor, font=font)
+                name=name.replace(' ', '_')
+                img.save(outpath+'/'+name+'_'+event+'.png')
+                print('Certificate for', name, 'in', event, 'created successfully')
 
 def third():
-    for row in data:
-        if row[placeindex] == '3':
-            name = row[0]
-            if 'School' in header:
-                if not os.path.exists(output + row[schoolindex]):
-                    os.makedirs(output + row[schoolindex])
-                    if not os.path.exists(output + row[schoolindex] + '/third'):
-                        os.makedirs(output + row[schoolindex] + '/third')
-                outpath = output + row[schoolindex] + '/third'
-            else:
-                if not os.path.exists(output + '/third'):
-                    os.makedirs(output + '/third')
-                outpath = output + '/third'
-            x1 = (x- len(name)*k)
-            y1 = y
-            img = Image.open(imgBronze)
-            draw = ImageDraw.Draw(img)
-            font = ImageFont.truetype(certfont, fontsize) 
-            draw.text((x1, y1), name, textcolor, font=font)
-            img.save('{}/{}.jpg'.format(outpath, name))
+    with open(datafile, 'r') as f:
+        reader = csv.reader(f)
+        header = next(reader)
+        for row in reader:
+            if row[positionindex] == '3':
+                name = row[nameindex]
+                event = row[eventindex]
+                img = Image.open(imgBronze)
+                if 'Event' in header:
+                    if not os.path.exists(output+'/'+event):
+                        os.makedirs(output+'/'+event)
+                outpath = output+'/'+event
+                namex = (name_x - (len(name) * k))
+                draw = ImageDraw.Draw(img)
+                font = ImageFont.truetype(certfont, fontsize)
+                draw.text((namex, name_y), name, fill=textcolor, font=font)
+                name=name.replace(' ', '_')
+                img.save(outpath+'/'+name+'_'+event+'.png')
+                print('Certificate for', name, 'in', event, 'created successfully')
 
-def fourth():
-    for row in data:
-        if row[placeindex] == '4':
-            name = row[0]
-            if 'School' in header:
-                if not os.path.exists(output + row[schoolindex]):
-                    os.makedirs(output + row[schoolindex])
-                    if not os.path.exists(output + row[schoolindex] + '/fourth'):
-                        os.makedirs(output + row[schoolindex] + '/fourth')
-                outpath = output + row[schoolindex] + '/fourth'
-            else:
-                if not os.path.exists(output + '/fourth'):
-                    os.makedirs(output + '/fourth')
-                outpath = output + '/fourth'
-            x1 = (x- len(name)*k)
-            y1 = y
-            img = Image.open(imgCopper)
-            draw = ImageDraw.Draw(img)
-            font = ImageFont.truetype(certfont, fontsize) 
-            draw.text((x1, y1), name, textcolor, font=font)
-            img.save('{}/{}.jpg'.format(outpath, name))
+def organising():
+    with open(datafile, 'r') as f:
+        reader = csv.reader(f)
+        header = next(reader)
+        for row in reader:
+            if row[positionindex] == '4':
+                name = row[nameindex]
+                event = row[eventindex]
+                img = Image.open(imgOrganising)
+                if not os.path.exists(output+'/Organising'):
+                    os.makedirs(output+'/Organising')
+                outpath = output+'/Organising'
+                namex = (name_x - (len(name) * k))
+                eventx = (event_x - (len(event) * k))
+                draw = ImageDraw.Draw(img)
+                font = ImageFont.truetype(certfont, fontsize)
+                font2 = ImageFont.truetype(certfont, fontsize2)
+                draw.text((namex, name_y), name, fill=textcolor, font=font)
+                draw.text((eventx, event_y), event, fill=textcolor, font=font2)
+                name=name.replace(' ', '_')
+                img.save(outpath+'/'+name+'_'+event+'.png')
+                print('Certificate for', name, 'as', event, 'created successfully')
 
-def extra():
-    for row in data:
-        if row[placeindex] == '5':
-            name = row[0]
-            if 'School' in header:
-                if not os.path.exists(output + row[schoolindex]):
-                    os.makedirs(output + row[schoolindex])
-                    if not os.path.exists(output + row[schoolindex] + '/extra'):
-                        os.makedirs(output + row[schoolindex] + '/extra')
-                outpath = output + row[schoolindex] + '/extra'
-            else:
-                if not os.path.exists(output + '/extra'):
-                    os.makedirs(output + '/extra')
-                outpath = output + '/extra'
-            x1 = (x- len(name)*k)
-            y1 = y
-            img = Image.open(imgExtra)
-            draw = ImageDraw.Draw(img)
-            font = ImageFont.truetype(certfont, fontsize) 
-            draw.text((x1, y1), name, textcolor, font=font)
-            img.save('{}/{}.jpg'.format(outpath, name))
-
+first()
+second()
+third()
 organising()
